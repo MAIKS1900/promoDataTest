@@ -16,14 +16,11 @@ return new class extends Migration
             $table->integer('product_id')->index()->comment('Id товара');
             $table->decimal('price', 18, 2)->comment('Цена товара');
             $table->date('price_date')->comment('Дата цены');
-            $table->timestamps();
-
 
             $table->foreign('product_id')
                 ->references('product_id')
                 ->on('products')
                 ->onDelete('cascade');
-
         });
         Schema::table('prices', static function () {
             DB::statement('CREATE UNIQUE INDEX idx_prices_product_date ON prices (product_id ASC, price_date DESC)');
