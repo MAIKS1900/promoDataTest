@@ -15,7 +15,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property int $rp_exec_time Время выполнения
  * @property int $ps_id Статус процесса
  * @property string|null $rp_file_save_path Путь к сохраненному файлу
- * @property-read string|null $status_name
  * @method static Builder<static>|ReportProcess newModelQuery()
  * @method static Builder<static>|ReportProcess newQuery()
  * @method static Builder<static>|ReportProcess query()
@@ -46,16 +45,6 @@ class ReportProcess extends Model
         'ps_id',
         'rp_file_save_path',
     ];
-
-    /**
-     * Атрибут для получения наименования статуса
-     *
-     * @return string|null
-     */
-    public function getStatusNameAttribute(): ?string
-    {
-        return $this->status->ps_name ?? null;
-    }
 
     /**
      * Статус процесса

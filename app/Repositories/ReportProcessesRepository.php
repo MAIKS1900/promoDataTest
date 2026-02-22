@@ -5,6 +5,7 @@ namespace App\Repositories;
 
 use App\Domain\ReportStatusesInterface;
 use App\Models\ReportProcess;
+use Illuminate\Database\Eloquent\Collection;
 use LogicException;
 
 class ReportProcessesRepository
@@ -28,11 +29,11 @@ class ReportProcessesRepository
     /**
      * Пометить отчет как выполненный
      *
-     * @param $reportId
+     * @param int $reportId
      * @param string $filePath
      * @return void
      */
-    public function markReportDone($reportId, string $filePath): void
+    public function markReportDone(int $reportId, string $filePath): void
     {
         $report = ReportProcess::find($reportId);
 
@@ -50,10 +51,10 @@ class ReportProcessesRepository
     /**
      * Пометить отчет как выполненный
      *
-     * @param $reportId
+     * @param int $reportId
      * @return void
      */
-    public function markReportError($reportId): void
+    public function markReportError(int $reportId): void
     {
         $report = ReportProcess::find($reportId);
 
@@ -62,7 +63,7 @@ class ReportProcessesRepository
         }
 
         $report->update([
-            'rp_exec_time' => (int)now()->diffInUTCSeconds($report->rp_start_datetime, true),
+            'rp_exec_time' => (int)now()->diffInSeconds($report->rp_start_datetime, true),
             'ps_id' => ReportStatusesInterface::ERROR,
         ]);
     }
@@ -70,9 +71,9 @@ class ReportProcessesRepository
     /**
      * Получить все процессы со статусами
      *
-     * @return \Illuminate\Database\Eloquent\Collection
+     * @return Collection<int, ReportProcess>
      */
-    public function getAllWithStatus()
+    public function getAllWithStatus(): Collection
     {
         return ReportProcess::with('processStatus')
             ->orderBy('rp_start_datetime', 'desc')

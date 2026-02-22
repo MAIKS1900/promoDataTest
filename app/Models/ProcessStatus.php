@@ -20,4 +20,7 @@ class ProcessStatus extends Model
 {
     /** @inheritdoc */
     protected $primaryKey = 'ps_id';
+
+    /** @inheritdoc */
+    public $timestamps = false;
 }

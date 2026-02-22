@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Repositories\ReportProcessesRepository;
+use Illuminate\View\View;
 
 class ReportProcessesController extends Controller
 {
@@ -16,7 +17,7 @@ class ReportProcessesController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): View
     {
         $processes = $this->repository->getAllWithStatus();
         

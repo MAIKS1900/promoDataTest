@@ -59,23 +59,26 @@ class LastWeekCategoryPricesReportCreate extends Command
         );
 
         try {
-            Log::info('Начинаем сбор отчета по категории {categoryId} с {dateFrom} по {dateTo}', [
+            Log::debug('Начинаем сбор отчета по категории {categoryId} с {dateFrom} по {dateTo}', [
                 'categoryId' => $buildParams->categoryId,
+                'pid' => $buildParams->pid,
                 'dateFrom' => $buildParams->dateFrom->toDateString(),
                 'dateTo' => $buildParams->dateTo->toDateString(),
             ]);
             $reportService->build($buildParams);
         } catch (Throwable $exception) {
             Log::error('Не удалось создать отчет по категории {categoryId} с {dateFrom} по {dateTo}: {exception}', [
-                'categoryId' => $categoryId,
+                'categoryId' => $buildParams->categoryId,
+                'pid' => $buildParams->pid,
                 'dateFrom' => $buildParams->dateFrom->toDateString(),
                 'dateTo' => $buildParams->dateTo->toDateString(),
                 'exception' => $exception->getMessage(),
             ]);
             $this->fail($exception);
         }
-        Log::info('Закончили сбор отчета по категории {categoryId} с {dateFrom} по {dateTo}', [
+        Log::debug('Закончили сбор отчета по категории {categoryId} с {dateFrom} по {dateTo}', [
             'categoryId' => $buildParams->categoryId,
+            'pid' => $buildParams->pid,
             'dateFrom' => $buildParams->dateFrom->toDateString(),
             'dateTo' => $buildParams->dateTo->toDateString(),
         ]);

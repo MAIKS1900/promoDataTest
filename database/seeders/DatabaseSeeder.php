@@ -14,24 +14,24 @@ class DatabaseSeeder extends Seeder
     use WithoutModelEvents;
 
     /** @var int Количество производителей для генерации */
-    private const MANUFACTURERS_COUNT = 10;
+    private const MANUFACTURERS_COUNT = 20;
 
     /** @var int Количество товаров у каждого производителя для генерации */
-    private const PRODUCTS_PER_MANUFACTURER_COUNT = 20;
+    private const PRODUCTS_PER_MANUFACTURER_COUNT = 60;
 
     /** @var int Количество дней, на которые есть цены по товарам */
-    private const PRICES_PER_PRODUCT_COUNT = 14;
+    private const PRICES_PER_PRODUCT_COUNT = 31;
 
     /**
      * Seed the application's database.
      */
     public function run(): void
     {
-        $startDate = Date::parse('2026-02-01');
+        $startDate = Date::now();
 
         $pricesSequences = [];
         for ($i = 0; $i < self::PRICES_PER_PRODUCT_COUNT; $i++) {
-            $pricesSequences[] = ['price_date' => $startDate->addDays($i)->toDateString()];
+            $pricesSequences[] = ['price_date' => $startDate->subDays($i)->toDateString()];
         }
 
         Manufacturer::factory()
@@ -41,7 +41,7 @@ class DatabaseSeeder extends Seeder
                     ->count(self::PRODUCTS_PER_MANUFACTURER_COUNT)
                     ->has(Price::factory()->count(self::PRICES_PER_PRODUCT_COUNT)->sequence(...$pricesSequences))
             )
-            ->create();
+            ->createQuietly();
 
     }
 }

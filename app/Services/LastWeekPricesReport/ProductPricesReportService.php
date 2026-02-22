@@ -82,7 +82,7 @@ class ProductPricesReportService
         foreach ($groupedByManufacturer as $manufacturerId => $infoByManufacturer) {
             $fileName = $reportFileHelper->getManufacturerReportFileName($manufacturerId);
             if (!$zip->addFromString($fileName, ArrayHelper::arrayToCsv($infoByManufacturer))) {
-                Log::warning("Не удалось добавить файл в архив: {filePath}", ['fileName' => $fileName]);
+                throw new RuntimeException("Не удалось добавить файл {$fileName} в архив");
             }
         }
 
