@@ -66,4 +66,16 @@ class ReportProcessesRepository
             'ps_id' => ReportStatusesInterface::ERROR,
         ]);
     }
+
+    /**
+     * Получить все процессы со статусами
+     *
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function getAllWithStatus()
+    {
+        return ReportProcess::with('processStatus')
+            ->orderBy('rp_start_datetime', 'desc')
+            ->get();
+    }
 }

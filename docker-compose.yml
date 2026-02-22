@@ -38,6 +38,25 @@ services:
     networks:
       - laravel
 
+  # Контейнер для билда js, чтобы не пробрасывать его в php контейнер
+  node-build:
+    image: node:20-alpine
+    container_name: promo-data-test-node-build
+    working_dir: /var/www/html
+    volumes:
+      - ./:/var/www/html
+    command: sh -c "npm ci || npm install && npm run build || vite build"
+    restart: "no"
+
+  node-dev:
+    image: node:20-alpine
+    working_dir: /app
+    volumes:
+      - .:/app
+    ports:
+      - "5173:5173"
+    command: [ "npm", "run", "dev", "--", "--host", "0.0.0.0" ]
+
 networks:
   laravel:
     driver: bridge
