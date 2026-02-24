@@ -29,3 +29,10 @@ php artisan storage:link
 ```shell
 docker-compose up -d node-build
 ```
+---
+### 8. Запуск команды генерации отчета
+```shell
+php artisan app:last-week-category-prices-report-create -C 1
+```
+### 9. Просмотр отчета
+http://localhost:8080
